@@ -1,0 +1,396 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2018-02-09 14:42+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: Controller/CoursesController.php:55;79
+msgid "The course has been saved."
+msgstr "Curso salvo com sucesso."
+
+#: Controller/CoursesController.php:59;83
+msgid "The course could not be saved. Please, try again."
+msgstr "Erro ao salvar curso, tente novamente."
+
+#: Controller/CoursesController.php:100
+msgid "The course has been deleted."
+msgstr "Curso excluído com sucesso."
+
+#: Controller/CoursesController.php:102
+msgid "The course could not be deleted. Please, try again."
+msgstr "Erro ao excluir curso, tente novamente."
+
+#: Controller/StudentsController.php:55;79
+msgid "The student has been saved."
+msgstr "Aluno salvo com sucesso."
+
+#: Controller/StudentsController.php:59;83
+msgid "The student could not be saved. Please, try again."
+msgstr "Erro ao salvar aluno, tente novamente."
+
+#: Controller/StudentsController.php:100
+msgid "The student has been deleted."
+msgstr "Aluno excluído com sucesso."
+
+#: Controller/StudentsController.php:102
+msgid "The student could not be deleted. Please, try again."
+msgstr "Erro ao excluir estudante, tente novamente."
+
+#: Controller/UsersController.php:42;66
+msgid "The user has been saved."
+msgstr "Usuário salvo com sucesso."
+
+#: Controller/UsersController.php:46;70
+msgid "The user could not be saved. Please, try again."
+msgstr "Erro ao salvar usuário, tente novamente."
+
+#: Controller/UsersController.php:87
+msgid "The user has been deleted."
+msgstr "Usuário excluído com sucesso."
+
+#: Controller/UsersController.php:89
+msgid "The user could not be deleted. Please, try again."
+msgstr "Erro ao excluir usuário, tente novamente."
+
+#: Controller/UsersController.php:117
+msgid "Invalid username or password, try again"
+msgstr "Usuário ou senha inválidos, tente novamente."
+
+#: Model/Table/StudentsTable.php:137
+msgid "Document1 is invalid"
+msgstr "CPF inválido."
+
+#: Template/Courses/add.ctp:1
+msgid "Add Course"
+msgstr "Adicionar Curso"
+
+#: Template/Courses/add.ctp:33
+#: Template/Courses/edit.ctp:33
+#: Template/RegistrationPayments/add.ctp:27
+#: Template/RegistrationPayments/edit.ctp:33
+#: Template/Registrations/add.ctp:30
+#: Template/Registrations/edit.ctp:36
+#: Template/Students/add.ctp:39
+#: Template/Students/edit.ctp:39
+#: Template/Users/add.ctp:20
+#: Template/Users/edit.ctp:20
+msgid "Submit"
+msgstr "Salvar"
+
+#: Template/Courses/edit.ctp:1
+msgid "Edit Course"
+msgstr "Editar Curso"
+
+#: Template/Courses/index.ctp:1
+#: Template/Layout/adminlte.ctp:117
+msgid "Courses"
+msgstr "Cursos"
+
+#: Template/Courses/index.ctp:2
+msgid "This sections allows you to manage all offered courses."
+msgstr "Este seção permite que você gerencie todos os cursos oferecidos."
+
+#: Template/Courses/index.ctp:9
+#: Template/Registrations/add.ctp:14
+#: Template/Registrations/edit.ctp:20
+#: Template/Registrations/index.ctp:14
+#: Template/Registrations/view.ctp:17
+msgid "New Course"
+msgstr "Novo Curso"
+
+#: Template/Courses/index.ctp:24
+#: Template/RegistrationPayments/add.ctp:9
+#: Template/RegistrationPayments/edit.ctp:9
+#: Template/RegistrationPayments/index.ctp:9;26
+#: Template/RegistrationPayments/view.ctp:9
+#: Template/Registrations/add.ctp:9
+#: Template/Registrations/edit.ctp:9
+#: Template/Registrations/index.ctp:9;31
+#: Template/Registrations/view.ctp:9;65
+#: Template/Students/index.ctp:24
+#: Template/Users/index.ctp:22
+msgid "Actions"
+msgstr "Opções"
+
+#: Template/Courses/index.ctp:35
+#: Template/Students/index.ctp:35
+msgid "<i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i>"
+msgstr ""
+
+#: Template/Courses/index.ctp:35
+#: Template/RegistrationPayments/index.ctp:39
+#: Template/Registrations/index.ctp:45
+#: Template/Registrations/view.ctp:76
+#: Template/Students/index.ctp:35
+msgid "View"
+msgstr "Visualizar"
+
+#: Template/Courses/index.ctp:36
+#: Template/Students/index.ctp:36
+#: Template/Users/index.ctp:31
+msgid "<i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>"
+msgstr ""
+
+#: Template/Courses/index.ctp:36
+#: Template/RegistrationPayments/index.ctp:40
+#: Template/Registrations/index.ctp:46
+#: Template/Registrations/view.ctp:77
+#: Template/Students/index.ctp:36
+#: Template/Users/index.ctp:31
+msgid "Edit"
+msgstr "Editar"
+
+#: Template/Courses/index.ctp:37
+#: Template/Students/index.ctp:37
+#: Template/Users/index.ctp:32
+msgid "<i class=\"fa fa-remove\" aria-hidden=\"true\"></i>"
+msgstr ""
+
+#: Template/Courses/index.ctp:37
+#: Template/RegistrationPayments/edit.ctp:13
+#: Template/RegistrationPayments/index.ctp:41
+#: Template/RegistrationPayments/view.ctp:11
+#: Template/Registrations/edit.ctp:13
+#: Template/Registrations/index.ctp:47
+#: Template/Registrations/view.ctp:11;78
+#: Template/Students/index.ctp:37
+#: Template/Users/index.ctp:32
+msgid "Are you sure you want to delete # {0}?"
+msgstr "Tem certeza que deseja excluir o registro # {0}?"
+
+#: Template/Courses/index.ctp:37
+#: Template/RegistrationPayments/edit.ctp:11
+#: Template/RegistrationPayments/index.ctp:41
+#: Template/Registrations/edit.ctp:11
+#: Template/Registrations/index.ctp:47
+#: Template/Registrations/view.ctp:78
+#: Template/Students/index.ctp:37
+#: Template/Users/index.ctp:32
+msgid "Delete"
+msgstr "Excluir"
+
+#: Template/Courses/index.ctp:46
+#: Template/RegistrationPayments/index.ctp:50
+#: Template/Registrations/index.ctp:56
+#: Template/Students/index.ctp:46
+#: Template/Users/index.ctp:41
+msgid "previous"
+msgstr "anterior"
+
+#: Template/Courses/index.ctp:48
+#: Template/RegistrationPayments/index.ctp:52
+#: Template/Registrations/index.ctp:58
+#: Template/Students/index.ctp:48
+#: Template/Users/index.ctp:43
+msgid "next"
+msgstr "próximo"
+
+#: Template/Courses/view.ctp:1
+#: Template/Registrations/view.ctp:30
+msgid "Course"
+msgstr "Curso"
+
+#: Template/Courses/view.ctp:10
+msgid "Course Details"
+msgstr "Detalhes do Curso"
+
+#: Template/Courses/view.ctp:11
+#: Template/RegistrationPayments/view.ctp:30
+#: Template/Registrations/view.ctp:38;59
+#: Template/Students/view.ctp:11
+msgid "Id"
+msgstr "ID"
+
+#: Template/Courses/view.ctp:20
+#: Template/Students/view.ctp:20
+msgid "Name"
+msgstr "Nome"
+
+#: Template/Courses/view.ctp:22
+msgid "Monthly Amount"
+msgstr "Valor da Mensalidade"
+
+#: Template/Courses/view.ctp:24
+msgid "Registration Tax"
+msgstr "Valor da Matrícula"
+
+#: Template/Courses/view.ctp:26
+msgid "Period"
+msgstr "Turno"
+
+#: Template/Courses/view.ctp:35
+msgid "Duration"
+msgstr "Duração (em meses)"
+
+#: Template/Courses/view.ctp:37
+#: Template/Registrations/view.ctp:42
+#: Template/Students/view.ctp:37
+msgid "Created"
+msgstr "Criado"
+
+#: Template/Courses/view.ctp:39
+#: Template/Registrations/view.ctp:46
+#: Template/Students/view.ctp:39
+msgid "Modified"
+msgstr "Modificado"
+
+#: Template/Element/Flash/error.ctp:8
+msgid "Error!"
+msgstr "Erro!"
+
+#: Template/Element/Flash/success.ctp:8
+msgid "Ok!"
+msgstr "Ok!"
+
+#: Template/Layout/adminlte.ctp:89
+msgid "Toggle navigation"
+msgstr "Alternar Navegação"
+
+#: Template/Layout/adminlte.ctp:123
+#: Template/Students/index.ctp:1
+msgid "Students"
+msgstr "Alunos"
+
+#: Template/Layout/adminlte.ctp:129
+#: Template/Users/index.ctp:1
+msgid "Users"
+msgstr "Usuários"
+
+#: Template/Layout/adminlte.ctp:135
+msgid "Logout"
+msgstr "Sair"
+
+#: Template/Layout/error.ctp:35
+msgid "Error"
+msgstr "Erro"
+
+#: Template/Layout/error.ctp:43
+msgid "Back"
+msgstr "Voltar"
+
+#: Template/RegistrationPayments/view.ctp:26
+#: Template/Registrations/view.ctp:50;63
+msgid "Status"
+msgstr "Status"
+
+#: Template/RegistrationPayments/view.ctp:34
+#: Template/Registrations/view.ctp:62
+msgid "Amount"
+msgstr "Valor"
+
+#: Template/RegistrationPayments/view.ctp:38
+#: Template/Registrations/view.ctp:61
+msgid "Date"
+msgstr "Data"
+
+#: Template/RegistrationPayments/view.ctp:43
+#: Template/Registrations/view.ctp:51
+msgid "Yes"
+msgstr "Sim"
+
+#: Template/RegistrationPayments/view.ctp:43
+#: Template/Registrations/view.ctp:51
+msgid "No"
+msgstr "Não"
+
+#: Template/Registrations/add.ctp:22
+msgid "Add Registration"
+msgstr "Adicionar Matrícula"
+
+#: Template/Registrations/index.ctp:20
+msgid "Registrations"
+msgstr "Matrículas"
+
+#: Template/Registrations/view.ctp:26
+#: Template/Students/view.ctp:1
+msgid "Student"
+msgstr "Aluno"
+
+#: Template/Registrations/view.ctp:34
+msgid "Year"
+msgstr "Ano"
+
+#: Template/Students/add.ctp:6
+msgid "Add Student"
+msgstr "Adicionar Aluno"
+
+#: Template/Students/add.ctp:11
+msgid "Do you want really save this record?"
+msgstr "Tem certeza que deseja salvar este registro?"
+
+#: Template/Students/add.ctp:19
+#: Template/Students/edit.ctp:19
+#: Template/Students/view.ctp:26
+msgid "Birthdate"
+msgstr "Nascimento"
+
+#: Template/Students/edit.ctp:6
+msgid "Edit Student"
+msgstr "Editar Aluno"
+
+#: Template/Students/index.ctp:2
+msgid "All students can be managed in this section."
+msgstr "Neste local você pode realizar o gerenciamento de todos os alunos."
+
+#: Template/Students/view.ctp:10
+msgid "Student Details"
+msgstr "Detalhes do Aluno"
+
+#: Template/Students/view.ctp:22
+msgid "Document1"
+msgstr "CPF"
+
+#: Template/Students/view.ctp:24
+msgid "Document2"
+msgstr "RG"
+
+#: Template/Students/view.ctp:35
+msgid "Phone"
+msgstr "Telefone"
+
+#: Template/Users/add.ctp:1
+msgid "Add User"
+msgstr "Adicionar Usuário"
+
+#: Template/Users/edit.ctp:1
+msgid "Edit User"
+msgstr "Editar Usuário"
+
+#: Template/Users/index.ctp:2
+msgid "Here you can manage the system users."
+msgstr "Aqui você pode gerenciar os usuários do sistema."
+
+#: Template/Users/index.ctp:9
+msgid "New User"
+msgstr "Novo Usuário"
+
+#: Template/Users/login.ctp:2
+msgid "Login"
+msgstr "Login"
+
+#: Template/Users/login.ctp:36
+msgid "Sign in to start your session"
+msgstr "Informe seus dados para iniciar uma sessão"
+
+#: Template/Users/login.ctp:41
+msgid "Username"
+msgstr "Usuário"
+
+#: Template/Users/login.ctp:45
+msgid "Password"
+msgstr "Senha"
+
+#: Template/Users/login.ctp:51
+msgid "Sign In"
+msgstr "Entrar"
+

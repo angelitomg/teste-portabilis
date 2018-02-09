@@ -20,25 +20,12 @@ class UsersController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'order' => ['username' => 'ASC']
+        ];
         $users = $this->paginate($this->Users);
 
         $this->set(compact('users'));
-    }
-
-    /**
-     * View method
-     *
-     * @param string|null $id User id.
-     * @return \Cake\Http\Response|void
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null)
-    {
-        $user = $this->Users->get($id, [
-            'contain' => []
-        ]);
-
-        $this->set('user', $user);
     }
 
     /**
@@ -103,5 +90,41 @@ class UsersController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * Login method
+     *
+     * @return mixed
+     */
+    public function login()
+    {
+        // Allow only if user not logged
+        if ($this->Auth->user()) {
+            $this->redirect('/');
+        }
+
+        $this->viewBuilder()->layout(false);
+
+        if ($this->request->is('post')) {
+            $user = $this->Auth->identify();
+            if ($user) {
+                // Set user data
+                $this->Auth->setUser($user);
+
+                return $this->redirect($this->Auth->redirectUrl());
+            }
+            $this->Flash->error(__('Invalid username or password, try again'));
+        }
+    }
+
+    /**
+     * Logout method
+     *
+     * @return mixed
+     */
+    public function logout()
+    {
+        return $this->redirect($this->Auth->logout());
     }
 }

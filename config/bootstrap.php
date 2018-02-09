@@ -214,3 +214,8 @@ Type::build('timestamp')
 if (Configure::read('debug')) {
     Plugin::load('DebugKit', ['bootstrap' => true]);
 }
+
+/**
+ * General configs
+ */
+require 'configs.php';
