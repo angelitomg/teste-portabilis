@@ -394,3 +394,48 @@ msgstr "Senha"
 msgid "Sign In"
 msgstr "Entrar"
 
+msgid "It was not possible complete registration. The student already has a course in the same period."
+msgstr "Não foi possível completar a matrícula. O aluno já está matriculado em um curso no mesmo período."
+
+msgid "The registration has been saved."
+msgstr "Matrícula salva com sucesso."
+
+msgid "The registration could not be saved. Please, try again."
+msgstr "Erro ao salvar matrícula, tente novamente."
+
+msgid "New Student"
+msgstr "Novo Aluno"
+
+msgid "This section controls all course registrations."
+msgstr "Este seção controla todas as matrículas geradas no sistema."
+
+msgid "Search Registrations"
+msgstr "Buscar Matrículas"
+
+msgid "Search"
+msgstr "Buscar"
+
+msgid "All"
+msgstr "Todos(as)"
+
+msgid "Active"
+msgstr "Ativo"
+
+msgid "Actives"
+msgstr "Ativas"
+
+msgid "Inactives"
+msgstr "Inativas"
+
+msgid "Not Paid"
+msgstr "Não Pagas"
+
+msgid "Paid"
+msgstr "Pagas"
+
+msgid "Registration Tax Paid"
+msgstr "Matrícula Paga"
+
+msgid "New Registration"
+msgstr "Nova Matrícula"
+

@@ -25,7 +25,53 @@ class RegistrationsController extends AppController
         ];
         $registrations = $this->paginate($this->Registrations);
 
-        $this->set(compact('registrations'));
+         // Paginate configs
+        $this->paginate = [
+            'contain' => ['Students', 'Courses'],
+            'sortWhitelist' => ['id', 'Courses.name', 'Students.name', 'year', 'active', 'registration_tax_paid'],
+            'order' => ['id' => 'DESC']
+        ];
+        $where = [];
+
+        // Course filter
+        if (!empty($this->request->query['course_id'])) {
+            $where['Registrations.course_id'] = $this->request->query['course_id'];
+        }
+
+        // Student filter
+        if (!empty($this->request->query['student_id'])) {
+            $where['Registrations.student_id'] = $this->request->query['student_id'];
+        }
+
+        // Year filter
+        if (!empty($this->request->query['year'])) {
+            $where['Registrations.year'] = $this->request->query['year'];
+        }
+
+        // Active filter
+        if ((isset($this->request->query['active'])) && 
+            ($this->request->query['active'] == 0 || $this->request->query['active'] == 1)) {
+            $where['Registrations.active'] = $this->request->query['active'];
+        }
+
+        // Registration tax paid filter
+        if ((isset($this->request->query['registration_tax_paid'])) && 
+            ($this->request->query['registration_tax_paid'] == 0 || $this->request->query['registration_tax_paid'] == 1)) {
+            $where['Registrations.registration_tax_paid'] = $this->request->query['registration_tax_paid'];
+        }
+
+        // Get registrations
+        $query = $this->Registrations->find('all')->contain(['Courses', 'Students'])->where($where);
+
+        // Paginate results
+        $registrations = $this->paginate($query);
+
+        $activeOptions = [0 => __('Inactives'), 1 => __('Actives'), 2 => __('All')];
+        $registrationTaxPaidOptions = [0 => __('Not Paid'), 1 => __('Paid'), 2 => __('All')];
+        $courses = $this->Registrations->Courses->find('list', ['order' => ['Courses.name' => 'ASC']]);
+        $students = $this->Registrations->Students->find('list', ['order' => ['Students.name' => 'ASC']]);
+
+        $this->set(compact('registrations', 'courses', 'students', 'registrationTaxPaidOptions', 'activeOptions'));
     }
 
     /**
@@ -53,39 +99,27 @@ class RegistrationsController extends AppController
     {
         $registration = $this->Registrations->newEntity();
         if ($this->request->is('post')) {
+
             $registration = $this->Registrations->patchEntity($registration, $this->request->getData());
-            if ($this->Registrations->save($registration)) {
-                $this->Flash->success(__('The registration has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+            // Search for a date conflict
+            if ($this->_hasPeriodConflict($registration->course_id, $registration->student_id, $registration->year)) {
+                $this->Flash->error(__('It was not possible complete registration. The student already has a course in the same period.'));
+            } else {
+
+                // Set inicial status
+                $registration->active = true;
+                $registration->registration_tax_paid = false;
+
+                // Save registration
+                if ($this->Registrations->save($registration)) {
+                    $this->Flash->success(__('The registration has been saved.'));
+                    return $this->redirect(['action' => 'index']);
+                }
+                $this->Flash->error(__('The registration could not be saved. Please, try again.'));
+
             }
-            $this->Flash->error(__('The registration could not be saved. Please, try again.'));
-        }
-        $students = $this->Registrations->Students->find('list', ['limit' => 200]);
-        $courses = $this->Registrations->Courses->find('list', ['limit' => 200]);
-        $this->set(compact('registration', 'students', 'courses'));
-    }
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id Registration id.
-     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $registration = $this->Registrations->get($id, [
-            'contain' => []
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $registration = $this->Registrations->patchEntity($registration, $this->request->getData());
-            if ($this->Registrations->save($registration)) {
-                $this->Flash->success(__('The registration has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The registration could not be saved. Please, try again.'));
         }
         $students = $this->Registrations->Students->find('list', ['limit' => 200]);
         $courses = $this->Registrations->Courses->find('list', ['limit' => 200]);
@@ -111,4 +145,31 @@ class RegistrationsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    /**
+     * _hasPeriodConflict method
+     *
+     * @param int $course_id Course id.
+     * @param int $student_id Student id.
+     * @param int $year Course year.
+     * @return boolean 
+     */
+    private function _hasPeriodConflict($course_id, $student_id, $year)
+    {
+
+        // Where conditions
+        $conditions = [
+            'Registrations.course_id' => $course_id, 
+            'Registrations.student_id' => $student_id, 
+            'Registrations.year' => $year
+        ];
+
+        // Get all records
+        $registrations = $this->Registrations->find('all')->where($conditions)->toArray();
+
+        // Check if user has a registration in same period
+        return (!empty($registrations)) ? true : false;
+
+    }
+
 }

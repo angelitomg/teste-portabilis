@@ -44,11 +44,11 @@ class RegistrationsTable extends Table
 
         $this->belongsTo('Students', [
             'foreignKey' => 'student_id',
-            'joinType' => 'INNER'
+            'joinType' => 'LEFT'
         ]);
         $this->belongsTo('Courses', [
             'foreignKey' => 'course_id',
-            'joinType' => 'INNER'
+            'joinType' => 'LEFT'
         ]);
         $this->hasMany('RegistrationPayments', [
             'foreignKey' => 'registration_id'
@@ -72,11 +72,6 @@ class RegistrationsTable extends Table
             ->maxLength('year', 255)
             ->requirePresence('year', 'create')
             ->notEmpty('year');
-
-        $validator
-            ->boolean('status')
-            ->requirePresence('status', 'create')
-            ->notEmpty('status');
 
         return $validator;
     }

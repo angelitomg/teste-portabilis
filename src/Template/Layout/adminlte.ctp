@@ -112,15 +112,27 @@ desired effect
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu">
 
+        <li <?php if ($controller == 'Students') echo 'class="active"'; ?>>
+          <a href="<?= $this->Url->build(['controller' => 'Students', 'action' => 'index']) ?>">
+            <i class="fa fa-users"></i> <span><?= __('Students') ?></span>
+          </a>
+        </li>
+
         <li <?php if ($controller == 'Courses') echo 'class="active"'; ?>>
           <a href="<?= $this->Url->build(['controller' => 'Courses', 'action' => 'index']) ?>">
             <i class="fa fa-graduation-cap"></i> <span><?= __('Courses') ?></span>
           </a>
         </li>
 
-        <li <?php if ($controller == 'Students') echo 'class="active"'; ?>>
-          <a href="<?= $this->Url->build(['controller' => 'Students', 'action' => 'index']) ?>">
-            <i class="fa fa-users"></i> <span><?= __('Students') ?></span>
+        <li <?php if ($controller == 'Registrations') echo 'class="active"'; ?>>
+          <a href="<?= $this->Url->build(['controller' => 'Registrations', 'action' => 'index']) ?>">
+            <i class="fa fa-files-o"></i> <span><?= __('Registrations') ?></span>
+          </a>
+        </li>
+
+        <li <?php if ($controller == 'RegistrationPayments') echo 'class="active"'; ?>>
+          <a href="<?= $this->Url->build(['controller' => 'RegistrationPayments', 'action' => 'index']) ?>">
+            <i class="fa fa-dollar"></i> <span><?= __('RegistrationPayments') ?></span>
           </a>
         </li>
 

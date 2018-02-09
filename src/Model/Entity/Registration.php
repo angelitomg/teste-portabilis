@@ -34,11 +34,12 @@ class Registration extends Entity
         'student_id' => true,
         'course_id' => true,
         'year' => true,
-        'status' => true,
         'created' => true,
         'modified' => true,
         'student' => true,
         'course' => true,
+        'active' => true,
+        'registration_tax_paid' => true,
         'registration_payments' => true
     ];
 }
