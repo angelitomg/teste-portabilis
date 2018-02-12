@@ -130,12 +130,6 @@ desired effect
           </a>
         </li>
 
-        <li <?php if ($controller == 'RegistrationPayments') echo 'class="active"'; ?>>
-          <a href="<?= $this->Url->build(['controller' => 'RegistrationPayments', 'action' => 'index']) ?>">
-            <i class="fa fa-dollar"></i> <span><?= __('RegistrationPayments') ?></span>
-          </a>
-        </li>
-
         <li <?php if ($controller == 'Users') echo 'class="active"'; ?>>
           <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'index']) ?>">
             <i class="fa fa-unlock-alt"></i> <span><?= __('Users') ?></span>

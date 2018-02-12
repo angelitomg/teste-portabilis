@@ -14,12 +14,29 @@
         <?= $this->Form->create($payment) ?>
           <div class="box-body">
 
-            <div class="text-center">
-                <p><b><?= __('Student') ?>:</b> <?= h($payment->registration->student->name) ?></p>
-                <p><b><?= __('Course') ?>:</b>  <?= h($payment->registration->course->name) ?></p>
-                <p><b><?= __('Amount') ?>:</b> <?= $this->Number->currency($payment->amount) ?></p>
-                <p><b><?= __('Nr') ?>: </b><?= ($payment->number == 0) ? __('Registration') : $payment->number ?></p>
-            </div>
+              <!-- info row -->
+              <div class="row invoice-info">
+                <div class="col-sm-6 invoice-col">
+                  <dl class="dl-horizontal">
+                    <dt><?= __('Student') ?>: </dt> 
+                    <dd><?= h($payment->registration->student->name) ?><dd>
+                    <dt><?= __('Course') ?>: </dt> 
+                    <dd><?= h($payment->registration->course->name) ?></dd>    
+                  </dl>
+
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-6 invoice-col">
+                  <dl class="dl-horizontal">
+                    <dt><?= __('Amount') ?>: </dt> 
+                    <dd><?= $this->Number->currency($payment->amount) ?></dd>
+                    <dt><?= __('Nr') ?>: </dt> 
+                    <dd><?= ($payment->number == 0) ? __('Registration') : $payment->number ?></dd>
+                  </dl>
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
 
             <div class="form-group">
               <label><?= __('Payment Date') ?></label>
@@ -27,7 +44,7 @@
             </div>
 
             <div class="form-group">
-              <?= $this->Form->control('amount_paid', ['class' => 'form-control']) ?>
+              <?= $this->Form->control('amount_paid', ['class' => 'form-control', 'type' => 'text']) ?>
             </div>
 
           </div>
@@ -58,3 +75,9 @@
       <!-- /.box -->
     </div>
 </div>
+<script src="<?= $this->Url->build('/') ?>/js/jquery.mask.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#amount-paid').mask('000.000.000.000,00',{reverse:true});
+    });
+</script>

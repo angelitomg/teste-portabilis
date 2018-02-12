@@ -32,7 +32,6 @@
             <dd><?= h($registration->year) ?></dd>
         <?php endif; ?>
       </dl>
-    </tr>
 
     </div>
     <!-- /.col -->
