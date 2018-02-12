@@ -4,7 +4,7 @@
     $values['course_id'] = (isset($params['course_id'])) ? $params['course_id'] : '';
     $values['student_id'] = (isset($params['student_id'])) ? $params['student_id'] : '';
     $values['year'] = (isset($params['year'])) ? $params['year'] : '';
-    $values['active'] = (isset($params['date_start'])) ? $params['active'] : 1;
+    $values['active'] = (isset($params['active'])) ? $params['active'] : 1;
     $values['registration_tax_paid'] = (isset($params['registration_tax_paid'])) ? $params['registration_tax_paid'] : 2;
 
 ?>

@@ -1,85 +1,104 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Registration $registration
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Registration'), ['action' => 'edit', $registration->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Registration'), ['action' => 'delete', $registration->id], ['confirm' => __('Are you sure you want to delete # {0}?', $registration->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Registrations'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Registration'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Students'), ['controller' => 'Students', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Student'), ['controller' => 'Students', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Courses'), ['controller' => 'Courses', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Course'), ['controller' => 'Courses', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Registration Payments'), ['controller' => 'RegistrationPayments', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Registration Payment'), ['controller' => 'RegistrationPayments', 'action' => 'add']) ?> </li>
-    </ul>
-</nav>
-<div class="registrations view large-9 medium-8 columns content">
-    <h3><?= h($registration->id) ?></h3>
-    <table class="vertical-table">
-        <tr>
-            <th scope="row"><?= __('Student') ?></th>
-            <td><?= $registration->has('student') ? $this->Html->link($registration->student->name, ['controller' => 'Students', 'action' => 'view', $registration->student->id]) : '' ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Course') ?></th>
-            <td><?= $registration->has('course') ? $this->Html->link($registration->course->name, ['controller' => 'Courses', 'action' => 'view', $registration->course->id]) : '' ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Year') ?></th>
-            <td><?= h($registration->year) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Id') ?></th>
-            <td><?= $this->Number->format($registration->id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Created') ?></th>
-            <td><?= h($registration->created) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Modified') ?></th>
-            <td><?= h($registration->modified) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Status') ?></th>
-            <td><?= $registration->status ? __('Yes') : __('No'); ?></td>
-        </tr>
-    </table>
-    <div class="related">
-        <h4><?= __('Related Registration Payments') ?></h4>
-        <?php if (!empty($registration->registration_payments)): ?>
-        <table cellpadding="0" cellspacing="0">
+<?php $this->assign('title', __('Registration') . ' # ' . $this->Number->format($registration->id)); ?>
+
+<!-- Main content -->
+<section class="invoice">
+  <!-- title row -->
+  <div class="row">
+    <div class="col-xs-12">
+      <h2 class="page-header">
+        <i class="fa fa-files-o"></i> 
+        <?= __('Registration') ?>
+        <small class="pull-right"><?= __('Id') ?>: <?= $this->Number->format($registration->id) ?></small>
+      </h2>
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- info row -->
+  <div class="row invoice-info">
+    <div class="col-sm-6 invoice-col">
+      <dl class="dl-horizontal">
+        <?php if ($registration->has('course')): ?>
+            <dt><?= __('Course') ?>: </dt> 
+            <dd><?= h($registration->course->name) ?><dd>
+            <dt><?= __('Period') ?>: </dt> 
+            <dd><?= $registration->course->getPeriod($registration->course->period); ?><dd>
+            <dt><?= __('Registration Tax') ?>: </dt> 
+            <dd><?= $this->Number->currency($registration->course->registration_tax) ?><dd>
+            <dt><?= __('Monthly Amount') ?>: </dt> 
+            <dd><?= $this->Number->currency($registration->course->monthly_amount) ?><dd>
+            <dt><?= __('Duration') ?>: </dt> 
+            <dd><?= h($registration->course->duration) ?><dd>
+            <dt><?= __('Year') ?>: </dt> 
+            <dd><?= h($registration->year) ?></dd>
+        <?php endif; ?>
+      </dl>
+    </tr>
+
+    </div>
+    <!-- /.col -->
+    <div class="col-sm-6 invoice-col">
+      <dl class="dl-horizontal">
+        <?php if ($registration->has('student')): ?>
+            <dt><?= __('Student') ?>: </dt> 
+            <dd><?= h($registration->student->name) ?></dd>
+            <dt><?= __('Document1') ?>: </dt> 
+            <dd><?= h($registration->student->document1) ?></dd>
+            <dt><?= __('Document2') ?>: </dt> 
+            <dd><?= h($registration->student->document2) ?></dd>
+            <dt><?= __('Birthdate') ?>: </dt> 
+            <dd><?= h($registration->student->birthdate) ?></dd>
+            <dt><?= __('Phone') ?>: </dt> 
+            <dd><?= h($registration->student->phone) ?></dd>
+            <dt><?= __('Created') ?>: </dt> 
+            <dd><?= h($registration->created) ?></dd>
+            <dt><?= __('Modified') ?>:</dt> 
+            <dd><?= h($registration->modified) ?></dd>
+        <?php endif; ?>
+      </dl>
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+
+  <!-- Table row -->
+  <?php if (!empty($registration->registration_payments)): ?>
+    <div class="row">
+      <div class="col-xs-12 table-responsive">
+        <p class="lead"><?= __('Related Payments') ?></p>
+        <table class="table table-striped" cellpadding="0" cellspacing="0">
             <tr>
-                <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('Registration Id') ?></th>
-                <th scope="col"><?= __('Date') ?></th>
-                <th scope="col"><?= __('Amount') ?></th>
-                <th scope="col"><?= __('Status') ?></th>
-                <th scope="col"><?= __('Is Registration Tax') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
+                <th><?= __('Number') ?></th>
+                <th><?= __('Date') ?></th>
+                <th><?= __('Due Date') ?></th>
+                <th><?= __('Payment Date') ?></th>
+                <th><?= __('Amount') ?></th>
+                <th><?= __('Status') ?></th>
             </tr>
-            <?php foreach ($registration->registration_payments as $registrationPayments): ?>
+            <?php foreach ($registration->registration_payments as $payment): ?>
             <tr>
-                <td><?= h($registrationPayments->id) ?></td>
-                <td><?= h($registrationPayments->registration_id) ?></td>
-                <td><?= h($registrationPayments->date) ?></td>
-                <td><?= h($registrationPayments->amount) ?></td>
-                <td><?= h($registrationPayments->status) ?></td>
-                <td><?= h($registrationPayments->is_registration_tax) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'RegistrationPayments', 'action' => 'view', $registrationPayments->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'RegistrationPayments', 'action' => 'edit', $registrationPayments->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'RegistrationPayments', 'action' => 'delete', $registrationPayments->id], ['confirm' => __('Are you sure you want to delete # {0}?', $registrationPayments->id)]) ?>
+                <td><?= ($payment->number == 0) ? __('Registration') : $payment->number ?></td>
+                <td><?= h($payment->date) ?></td>
+                <td><?= h($payment->due_date) ?></td>
+                <td><?= h($payment->payment_date) ?></td>
+                <td><?= $this->Number->currency($payment->amount) ?></td>
+                <td>
+                    <?php if ($payment->status == 0): ?>
+                        <?= $this->Html->link(__('<i class="fa fa-dollar" aria-hidden="true"></i>' .  ' ' . __('Pay')), ['controller' => 'RegistrationPayments', 'action' => 'pay', $payment->id], ['escape' => false, 'title' => __('Pay')]) ?>
+                    <?php else: ?>
+                        <?= __('Already Paid') ?>
+                    <?php endif; ?>
                 </td>
             </tr>
             <?php endforeach; ?>
         </table>
-        <?php endif; ?>
+      </div>
     </div>
-</div>
+  <?php endif; ?>
+
+  <div class="row">
+    <div class="col-xs-12 text-center">
+        <?= $this->Form->postLink(__('Cancel Registration'), ['action' => 'delete', $registration->id], ['confirm' => __('Are you sure you want to cancel the registration # {0}?', $registration->id), 'escape' => false, 'title' => __('Delete'), 'class' => 'btn btn-danger']) ?>
+    </div>
+  </div>
+
+  </section>

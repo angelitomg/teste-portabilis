@@ -38,7 +38,7 @@ class RegistrationPaymentsTable extends Table
 
         $this->belongsTo('Registrations', [
             'foreignKey' => 'registration_id',
-            'joinType' => 'INNER'
+            'joinType' => 'LEFT'
         ]);
     }
 

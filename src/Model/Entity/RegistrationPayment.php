@@ -33,6 +33,9 @@ class RegistrationPayment extends Entity
         'amount' => true,
         'status' => true,
         'is_registration_tax' => true,
-        'registration' => true
+        'registration' => true,
+        'due_date' => true,
+        'payment_date' => true,
+        'number' => true
     ];
 }

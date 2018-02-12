@@ -29,65 +29,70 @@ class RegistrationPaymentsController extends AppController
     }
 
     /**
-     * View method
+     * Pay method
      *
-     * @param string|null $id Registration Payment id.
-     * @return \Cake\Http\Response|void
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null)
-    {
-        $registrationPayment = $this->RegistrationPayments->get($id, [
-            'contain' => ['Registrations']
-        ]);
-
-        $this->set('registrationPayment', $registrationPayment);
-    }
-
-    /**
-     * Add method
-     *
+     * @param int $id Registration Payment id.
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function pay($id)
     {
-        $registrationPayment = $this->RegistrationPayments->newEntity();
-        if ($this->request->is('post')) {
-            $registrationPayment = $this->RegistrationPayments->patchEntity($registrationPayment, $this->request->getData());
-            if ($this->RegistrationPayments->save($registrationPayment)) {
-                $this->Flash->success(__('The registration payment has been saved.'));
+        // Get payment info
+        $payment = $this->RegistrationPayments
+            ->find('all')
+            ->where(['RegistrationPayments.id' => $id])
+            ->contain(['Registrations' => ['Courses', 'Students']])
+            ->first();
 
-                return $this->redirect(['action' => 'index']);
+        // Check if is a valid payment
+        if (empty($payment) || $payment->status == 1) return $this->redirect(['controller' => 'Registrations', 'action' => 'index']);
+
+        // Payback amount
+        $payback = [];
+        
+        // Pay action
+        if ($this->request->is(['post', 'put'])) {
+            
+            // Get data
+            $paymentDate = $this->request->data['payment_date']['year'] . '-' .
+                    $this->request->data['payment_date']['month'] . '-' .
+                    $this->request->data['payment_date']['day'];
+            $amountPaid = $this->request->data['amount_paid'];
+
+            // Check payment amount
+            if ($payment->amount > $amountPaid) {
+                $this->Flash->error(__('Invalid amount.'));
+            } else {
+
+                // Set data and save payment
+                $payment->payment_date = $paymentDate;
+                $payment->status = 1;
+                $this->RegistrationPayments->save($payment);
+
+                // Update registration if is registration tax
+                if ($payment->number == 0) {
+                    $this->loadModel('Registrations');
+                    $registration = $this->Registrations
+                        ->find('all')
+                        ->where(['Registrations.id' => $payment->registration_id])
+                        ->first();
+                    if (empty($registration)) return null;
+                    $registration->registration_tax_paid = 1;
+                    $this->Registrations->save($registration);
+                }
+
+                // Calculate payback
+                $amountPaid = str_replace('.', '', $amountPaid);
+                $amountPaid = str_replace(',', '', $amountPaid);
+                $amountPaid = $amountPaid / 100;
+                $amountPaid = round($amountPaid, 2);
+                $payback = $this->_calculatePayback($payment->amount, $amountPaid);
+                if (empty($payback)) return $this->redirect(['controller' => 'Registrations', 'action' => 'view', $payment->registration_id]);
+
             }
-            $this->Flash->error(__('The registration payment could not be saved. Please, try again.'));
+            
         }
-        $registrations = $this->RegistrationPayments->Registrations->find('list', ['limit' => 200]);
-        $this->set(compact('registrationPayment', 'registrations'));
-    }
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id Registration Payment id.
-     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $registrationPayment = $this->RegistrationPayments->get($id, [
-            'contain' => []
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $registrationPayment = $this->RegistrationPayments->patchEntity($registrationPayment, $this->request->getData());
-            if ($this->RegistrationPayments->save($registrationPayment)) {
-                $this->Flash->success(__('The registration payment has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The registration payment could not be saved. Please, try again.'));
-        }
-        $registrations = $this->RegistrationPayments->Registrations->find('list', ['limit' => 200]);
-        $this->set(compact('registrationPayment', 'registrations'));
+        $this->set(compact('payment', 'payback'));
     }
 
     /**
@@ -109,4 +114,49 @@ class RegistrationPaymentsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    /**
+     * Calculate payback method
+     *
+     * @param float $amount Total amount.
+     * @param float $amountPaid Amount paid.
+     * @return mixed
+     */
+    private function _calculatePayback($amount, $amountPaid) {
+        // Notes and totals
+        $notes = [100, 50, 10, 5];
+        $cents = [100, 50, 10, 5, 1];
+        $totals = [];
+
+        // Get payback value
+        $payback = $amountPaid - $amount;
+        $value = $payback;
+
+        // Check each money
+        foreach ($notes as $note) {
+            $totalNotes = 0;
+            $totalNotes = floor($value / $note);
+            if ($totalNotes > 0) {
+                $value = $value - ($totalNotes * $note);
+                $totals[(string) $note] = $totalNotes;  
+            }
+        }
+
+        // Check each cents
+        $value = $value * 100;
+        foreach ($cents as $cent) {
+            $value = round($value, 2);
+            $totalCents = 0;
+            $totalCents = floor($value / $cent);
+            if ($totalCents > 0) {
+                $value = $value - ($totalCents * $cent);
+                $totals[(string) ($cent/100)] = $totalCents;    
+            }
+        }
+
+        // Return totals
+        return $totals;
+
+    }
+
 }

@@ -439,3 +439,53 @@ msgstr "Matrícula Paga"
 msgid "New Registration"
 msgstr "Nova Matrícula"
 
+msgid "Morning"
+msgstr "Matutino"
+
+msgid "Afternoon"
+msgstr "Vespertino"
+
+msgid "Night"
+msgstr "Noturno"
+
+msgid "Registration"
+msgstr "Matrícula"
+
+msgid "Due Date"
+msgstr "Vencimento"
+
+msgid "Payment Date"
+msgstr "Pagamento"
+
+msgid "Pending"
+msgstr "Pendente"
+
+msgid "Already Paid"
+msgstr "Pago"
+
+msgid "Related Payments"
+msgstr "Pagamentos"
+
+msgid "Number"
+msgstr "Nr"
+
+msgid "Pay"
+msgstr "Pagar"
+
+msgid "Are you sure you want to cancel the registration # {0}?"
+msgstr "Tem certeza que deseja cancelar a matrícula # {0}?"
+
+msgid "Cancel Registration"
+msgstr "Cancelar Matrícula"
+
+msgid "Amount Paid"
+msgstr "Valor Pago"
+
+msgid "Invalid amount."
+msgstr "Valor inválido."
+
+msgid "Payback"
+msgstr "Troco"
+
+msgid "Finish"
+msgstr "Finalizar"

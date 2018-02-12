@@ -43,7 +43,7 @@
       <!-- /.box -->
     </div>
 </div>
-<script src="<?= $this->Url->build('/') ?>/js/jquery.mask.js"></script>js
+<script src="<?= $this->Url->build('/') ?>/js/jquery.mask.js"></script>
 <script>
     $(document).ready(function(){
         $('#document1').mask('000.000.000-00');

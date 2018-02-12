@@ -51,7 +51,8 @@ class RegistrationsTable extends Table
             'joinType' => 'LEFT'
         ]);
         $this->hasMany('RegistrationPayments', [
-            'foreignKey' => 'registration_id'
+            'foreignKey' => 'registration_id',
+            'dependent' => true
         ]);
     }
 

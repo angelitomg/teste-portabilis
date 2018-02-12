@@ -84,7 +84,7 @@ class RegistrationsController extends AppController
     public function view($id = null)
     {
         $registration = $this->Registrations->get($id, [
-            'contain' => ['Students', 'Courses', 'RegistrationPayments']
+            'contain' => ['Students', 'Courses', 'RegistrationPayments' => ['sort' => ['RegistrationPayments.id' => 'ASC']]]
         ]);
 
         $this->set('registration', $registration);
@@ -113,8 +113,12 @@ class RegistrationsController extends AppController
 
                 // Save registration
                 if ($this->Registrations->save($registration)) {
+
+                    // Generate payments
+                    $this->_generatePayments($registration->id);
+
                     $this->Flash->success(__('The registration has been saved.'));
-                    return $this->redirect(['action' => 'index']);
+                    return $this->redirect(['action' => 'view', $registration->id]);
                 }
                 $this->Flash->error(__('The registration could not be saved. Please, try again.'));
 
@@ -169,6 +173,61 @@ class RegistrationsController extends AppController
 
         // Check if user has a registration in same period
         return (!empty($registrations)) ? true : false;
+
+    }
+
+    /**
+     * _generatePayments method
+     *
+     * @param int $id Registration id.
+     * @return mixed
+     */
+    private function _generatePayments($id)
+    {
+
+        // Load payments model
+        $this->loadModel('RegistrationPayments');
+
+        // Get registration info
+        $registration = $this->Registrations
+            ->find('all')
+            ->where(['Registrations.id' => $id])
+            ->contain(['Courses'])
+            ->first();
+
+        // Check invalid registration
+        if (empty($registration)) return false;
+        if (!$registration->has('course')) return false;
+
+        // Generate registration tax
+        $registrationTax = $this->RegistrationPayments->newEntity();
+        $registrationTax->registration_id = $id;
+        $registrationTax->amount = $registration->course->registration_tax;
+        $registrationTax->date = date('Y-m-d');
+        $registrationTax->due_date = date('Y-m-d', strtotime('+30 days'));
+        $registrationTax->payment_date = NULL;
+        $registrationTax->number = 0;
+        $registrationTax->is_registration_tax = 1;
+        $registrationTax->status = 0;
+        if (!$this->RegistrationPayments->save($registrationTax)) return false;
+
+        // Generate monthly payments
+        $nextDueDate = date('Y-m-d', strtotime('+30 days'));
+        for ($i = 1; $i <= $registration->course->duration; $i++) {
+            $registrationPayment = $this->RegistrationPayments->newEntity();
+            $registrationPayment->registration_id = $id;
+            $registrationPayment->amount = $registration->course->monthly_amount;
+            $registrationPayment->date = date('Y-m-d');
+            $registrationPayment->due_date = $nextDueDate;
+            $registrationPayment->payment_date = NULL;
+            $registrationPayment->number = $i;
+            $registrationPayment->is_registration_tax = 0;
+            $registrationPayment->status = 0;
+            if (!$this->RegistrationPayments->save($registrationPayment)) return false;
+            $nextDueDate = date('Y-m-d', strtotime($nextDueDate . ' +30 days'));
+        }
+
+        return true;
 
     }
 
