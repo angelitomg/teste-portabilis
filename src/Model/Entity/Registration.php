@@ -40,6 +40,7 @@ class Registration extends Entity
         'course' => true,
         'active' => true,
         'registration_tax_paid' => true,
-        'registration_payments' => true
+        'registration_payments' => true,
+        'cancellation_date' => true
     ];
 }

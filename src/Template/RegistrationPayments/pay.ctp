@@ -58,7 +58,7 @@
         <?php else: ?>
 
             <div class="box-body">
-                <h1><?= __('Payback') ?></h1>
+                <h1 class="text-center"><?= __('Payback') ?></h1>
                 <div class="text-center">
                 <?php foreach ($payback as $amount => $total): ?>
                     <p><b><?= $this->Number->currency($amount) ?>:</b> <?= $total ?></p>

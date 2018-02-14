@@ -30,6 +30,17 @@
             <dd><?= h($registration->course->duration) ?><dd>
             <dt><?= __('Year') ?>: </dt> 
             <dd><?= h($registration->year) ?></dd>
+            <dt><?= __('Status') ?>: </dt> 
+            <dd>
+              <?php if ($registration->active): ?>
+                <span class="text-green"><?= __('Active') ?></span>
+              <?php else: ?>
+                <span class="text-danger">
+                  <?= __('Cancelled in ') ?>
+                  <?= h($registration->cancellation_date) ?>
+                </span>
+              <?php endif; ?>
+            </dd>
         <?php endif; ?>
       </dl>
 
@@ -82,9 +93,17 @@
                 <td><?= $this->Number->currency($payment->amount) ?></td>
                 <td>
                     <?php if ($payment->status == 0): ?>
-                        <?= $this->Html->link(__('<i class="fa fa-dollar" aria-hidden="true"></i>' .  ' ' . __('Pay')), ['controller' => 'RegistrationPayments', 'action' => 'pay', $payment->id], ['escape' => false, 'title' => __('Pay')]) ?>
+                        <?php if ($registration->active): ?>
+                          <?= $this->Html->link(__('<i class="fa fa-dollar" aria-hidden="true"></i>' .  ' ' . __('Pay')), ['controller' => 'RegistrationPayments', 'action' => 'pay', $payment->id], ['escape' => false, 'title' => __('Pay')]) ?>
+                        <?php else: ?>
+                          <span class="text-danger">
+                            <?= __('Cancelled in ') ?>
+                            <?= h($registration->cancellation_date) ?>
+                          </span>
+                        <?php endif; ?>
+
                     <?php else: ?>
-                        <?= __('Already Paid') ?>
+                        <span class="text-green"><?= __('Already Paid') ?></span>
                     <?php endif; ?>
                 </td>
             </tr>
@@ -94,10 +113,12 @@
     </div>
   <?php endif; ?>
 
-  <div class="row">
-    <div class="col-xs-12 text-center">
-        <?= $this->Form->postLink(__('Cancel Registration'), ['action' => 'delete', $registration->id], ['confirm' => __('Are you sure you want to cancel the registration # {0}?', $registration->id), 'escape' => false, 'title' => __('Delete'), 'class' => 'btn btn-danger']) ?>
+  <?php if ($registration->active): ?>
+    <div class="row">
+      <div class="col-xs-12 text-center">
+          <?= $this->Form->postLink(__('Cancel Registration'), ['action' => 'cancel', $registration->id], ['confirm' => __('Are you sure you want to cancel the registration # {0}?', $registration->id), 'escape' => false, 'title' => __('Delete'), 'class' => 'btn btn-danger']) ?>
+      </div>
     </div>
-  </div>
+  <?php endif; ?>
 
   </section>

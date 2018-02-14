@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\I18n\Number;
 
 /**
  * Registrations Controller
@@ -125,9 +126,55 @@ class RegistrationsController extends AppController
             }
 
         }
-        $students = $this->Registrations->Students->find('list', ['limit' => 200]);
-        $courses = $this->Registrations->Courses->find('list', ['limit' => 200]);
+        $students = $this->Registrations->Students->find('list', ['order' => ['Students.name' => 'ASC']]);
+        $courses = $this->Registrations->Courses->find('list', ['order' => ['Courses.name' => 'ASC']]);
         $this->set(compact('registration', 'students', 'courses'));
+    }
+
+    /**
+     * Cancel method
+     *
+     * @param string|null $id Registration id.
+     * @return \Cake\Http\Response|null Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function cancel($id = null)
+    {
+        // Only allow...
+        $this->request->allowMethod(['post', 'delete']);
+
+        // Get registration data
+        $registration = $this->Registrations
+            ->find('all')
+            ->where(['Registrations.id' => $id, 'Registrations.active' => 1])
+            ->contain(['RegistrationPayments'])
+            ->first();
+
+        // Check invalid registration
+        if (empty($registration)) return $this->redirect('/');
+
+        // Get all incompleted payments
+        $cancellationFee = 0;
+        if (!empty($registration->registration_payments)) {
+            foreach ($registration->registration_payments as $payment) {
+                if (empty($payment->payment_date)) {
+
+                    // Increase cancellation fee
+                    $cancellationFee += ($payment->amount / 100) * 1;
+
+                }
+            }
+        }
+
+        // Set cancellation date and save registration
+        $registration->cancellation_date = date('Y-m-d');
+        $registration->active = false;
+        $this->Registrations->save($registration);
+
+        // Set status message and redirect
+        $this->Flash->error(__('Registration cancelled successfully. The cancellation fee is ') . Number::currency($cancellationFee) . '.');
+        return $this->redirect(['action' => 'view', $id]);
+    
     }
 
     /**

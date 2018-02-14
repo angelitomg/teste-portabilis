@@ -489,3 +489,9 @@ msgstr "Troco"
 
 msgid "Finish"
 msgstr "Finalizar"
+
+msgid "Registration cancelled successfully. The cancellation fee is "
+msgstr "Matrícula cancelada com sucesso. A taxa de cancelamento é "
+
+msgid "Cancelled in "
+msgstr "Cancelado(a) em "
