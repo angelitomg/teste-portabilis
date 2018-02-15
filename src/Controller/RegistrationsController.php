@@ -53,6 +53,8 @@ class RegistrationsController extends AppController
         if ((isset($this->request->query['active'])) && 
             ($this->request->query['active'] == 0 || $this->request->query['active'] == 1)) {
             $where['Registrations.active'] = $this->request->query['active'];
+        } else {
+            $where['Registrations.active'] = 1;
         }
 
         // Registration tax paid filter
@@ -170,7 +172,7 @@ class RegistrationsController extends AppController
         $this->Registrations->save($registration);
 
         // Set status message and redirect
-        $this->Flash->error(__('Registration cancelled successfully. The cancellation fee is ') . Number::currency($cancellationFee) . '.');
+        $this->Flash->success(__('Registration cancelled successfully. The cancellation fee is ') . Number::currency($cancellationFee) . '.');
         return $this->redirect(['action' => 'view', $id]);
     
     }
@@ -193,6 +195,29 @@ class RegistrationsController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * Generate payments method
+     *
+     * @param int $id Registration id.
+     * @return \Cake\Http\Response|null Redirects to view.
+     */
+    public function generatePayments($id)
+    {
+        $this->request->allowMethod(['post']);
+        $registration = $this->Registrations
+            ->find('all')
+            ->where(['Registrations.id' => $id])
+            ->contain(['RegistrationPayments'])
+            ->first();
+        if (!empty($registration) && empty($registration->registration_payments)) {
+            $this->_generatePayments($registration->id);
+            $this->Flash->success(__('Payments generated successfully.'));
+        } else {
+            $this->Flash->error(__('The payments could not be generated. '));
+        }
+        return $this->redirect(['action' => 'view', $registration->id]);
     }
 
     /**

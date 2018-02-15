@@ -111,7 +111,16 @@
         </table>
       </div>
     </div>
+  <?php else: ?>
+    <?php if ($registration->active): ?>
+    <div class="row">
+      <div class="col-xs-12 text-center">
+          <?= $this->Form->postLink(__('Generate Payments'), ['controller' => 'Registrations', 'action' => 'generatePayments', $registration->id], ['confirm' => __('Are you sure you want to generate payments?', $registration->id), 'escape' => false, 'title' => __('Generate Payments'), 'class' => 'btn btn-success']) ?>
+      </div>
+    </div>
+    <?php endif; ?>
   <?php endif; ?>
+  <br>
 
   <?php if ($registration->active): ?>
     <div class="row">

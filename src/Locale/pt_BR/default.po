@@ -504,3 +504,15 @@ msgstr "Nome do Aluno"
 
 msgid "Search for a student"
 msgstr "Digite para buscar um aluno..."
+
+msgid "Are you sure you want to generate payments?"
+msgstr "Tem certeza que deseja gerar as parcelas?"
+
+msgid "Generate Payments"
+msgstr "Gerar Parcelas"
+
+msgid "the payments could not be generated."
+msgstr "As parcelas não puderam ser geradas."
+
+msgid "Payments generated successfully."
+msgstr "Parcelas geradas com sucesso."
