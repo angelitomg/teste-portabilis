@@ -495,3 +495,12 @@ msgstr "Matrícula cancelada com sucesso. A taxa de cancelamento é "
 
 msgid "Cancelled in "
 msgstr "Cancelado(a) em "
+
+msgid "Course Name"
+msgstr "Nome do Curso"
+
+msgid "Student Name"
+msgstr "Nome do Aluno"
+
+msgid "Search for a student"
+msgstr "Digite para buscar um aluno..."

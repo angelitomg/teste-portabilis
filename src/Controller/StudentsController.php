@@ -62,6 +62,33 @@ class StudentsController extends AppController
     }
 
     /**
+     * Search List method
+     *
+     * @return void
+     */
+    public function searchList()
+    {
+        // No layout
+        $this->viewBuilder()->setLayout(false);
+        $this->autoRender = false;
+
+        // Get search query
+        $query = $this->request->query['term'];
+
+        // Search students
+        $students = $this->Students
+            ->find('all')
+            ->select(['id' => 'Students.id', 'label' => 'Students.name'])
+            ->where(['Students.name LIKE' =>  "%{$query}%"])
+            ->toArray();
+
+        // Show JSON results
+        $results = $students;
+        echo json_encode($results); die();
+        
+    }
+
+    /**
      * Edit method
      *
      * @param string|null $id Student id.

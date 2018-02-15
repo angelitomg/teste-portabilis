@@ -1,8 +1,8 @@
 <?php
 
     $params = $this->request->query;
-    $values['course_id'] = (isset($params['course_id'])) ? $params['course_id'] : '';
-    $values['student_id'] = (isset($params['student_id'])) ? $params['student_id'] : '';
+    $values['course_name'] = (isset($params['course_name'])) ? $params['course_name'] : '';
+    $values['student_name'] = (isset($params['student_name'])) ? $params['student_name'] : '';
     $values['year'] = (isset($params['year'])) ? $params['year'] : '';
     $values['active'] = (isset($params['active'])) ? $params['active'] : 1;
     $values['registration_tax_paid'] = (isset($params['registration_tax_paid'])) ? $params['registration_tax_paid'] : 2;
@@ -30,13 +30,13 @@
 
           <div class="col-xs-6">
             <div class="form-group">
-              <?= $this->Form->input('course_id', ['class' => 'form-control', 'options' => $courses, 'empty' => __('All'), 'value' => $values['course_id']]) ?>
+              <?= $this->Form->input('course_name', ['class' => 'form-control', 'value' => $values['course_name']]) ?>
             </div>
           </div>
 
           <div class="col-xs-6">
             <div class="form-group">
-              <?= $this->Form->input('student_id', ['class' => 'form-control', 'options' => $students, 'empty' => __('All'),  'value' => $values['student_id']]) ?>
+              <?= $this->Form->input('student_name', ['class' => 'form-control', 'value' => $values['student_name']]) ?>
             </div>
           </div>
 

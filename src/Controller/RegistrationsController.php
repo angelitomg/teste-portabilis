@@ -35,13 +35,13 @@ class RegistrationsController extends AppController
         $where = [];
 
         // Course filter
-        if (!empty($this->request->query['course_id'])) {
-            $where['Registrations.course_id'] = $this->request->query['course_id'];
+        if (!empty($this->request->query['course_name'])) {
+            $where['Courses.name LIKE'] = "%{$this->request->query['course_name']}%";
         }
 
         // Student filter
-        if (!empty($this->request->query['student_id'])) {
-            $where['Registrations.student_id'] = $this->request->query['student_id'];
+        if (!empty($this->request->query['student_name'])) {
+            $where['Students.name LIKE'] = "%{$this->request->query['student_name']}%";
         }
 
         // Year filter
@@ -69,10 +69,8 @@ class RegistrationsController extends AppController
 
         $activeOptions = [0 => __('Inactives'), 1 => __('Actives'), 2 => __('All')];
         $registrationTaxPaidOptions = [0 => __('Not Paid'), 1 => __('Paid'), 2 => __('All')];
-        $courses = $this->Registrations->Courses->find('list', ['order' => ['Courses.name' => 'ASC']]);
-        $students = $this->Registrations->Students->find('list', ['order' => ['Students.name' => 'ASC']]);
 
-        $this->set(compact('registrations', 'courses', 'students', 'registrationTaxPaidOptions', 'activeOptions'));
+        $this->set(compact('registrations', 'registrationTaxPaidOptions', 'activeOptions'));
     }
 
     /**
@@ -126,9 +124,9 @@ class RegistrationsController extends AppController
             }
 
         }
-        $students = $this->Registrations->Students->find('list', ['order' => ['Students.name' => 'ASC']]);
+        //$students = $this->Registrations->Students->find('list', ['order' => ['Students.name' => 'ASC']]);
         $courses = $this->Registrations->Courses->find('list', ['order' => ['Courses.name' => 'ASC']]);
-        $this->set(compact('registration', 'students', 'courses'));
+        $this->set(compact('registration', 'courses'));
     }
 
     /**
