@@ -81,44 +81,40 @@ class StudentsTable extends Table
             ->notEmpty('phone');
 
        // CakePHP CPF validator (thanks to https://github.com/gspaiva/cpfvalidator)
-       $validator
-            ->add('document1','custom',
-                ['rule'=>
-                    function($cpf)
-                    {   
+        $validator
+            ->add(
+                'document1',
+                'custom',
+                ['rule' =>
+                    function ($cpf) {
 
                         // Check cpf
-                        if(empty($cpf)) {
+                        if (empty($cpf)) {
                             return false;
                         }
-                     
+
                         // Remove possible mask
                         $cpf = preg_replace('/[^0-9]/', '', $cpf);
                         $cpf = str_pad($cpf, 11, '0', STR_PAD_LEFT);
-                         
+
                         // Check digits number
                         if (strlen($cpf) != 11) {
                             return false;
-                        }
-                        
-                        // Check invalid sequences
-                        else if ($cpf == '00000000000' || 
-                            $cpf == '11111111111' || 
-                            $cpf == '22222222222' || 
-                            $cpf == '33333333333' || 
-                            $cpf == '44444444444' || 
-                            $cpf == '55555555555' || 
-                            $cpf == '66666666666' || 
-                            $cpf == '77777777777' || 
-                            $cpf == '88888888888' || 
+                        } elseif ($cpf == '00000000000' ||
+                            $cpf == '11111111111' ||
+                            $cpf == '22222222222' ||
+                            $cpf == '33333333333' ||
+                            $cpf == '44444444444' ||
+                            $cpf == '55555555555' ||
+                            $cpf == '66666666666' ||
+                            $cpf == '77777777777' ||
+                            $cpf == '88888888888' ||
                             $cpf == '99999999999') {
                             return false;
-                         
+
                          // Calculate verification digit
-                         } else {   
-                             
+                        } else {
                             for ($t = 9; $t < 11; $t++) {
-                                 
                                 for ($d = 0, $c = 0; $c < $t; $c++) {
                                     $d += $cpf{$c} * (($t + 1) - $c);
                                 }
@@ -127,17 +123,16 @@ class StudentsTable extends Table
                                     return false;
                                 }
                             }
-                     
+
                             return true;
                         }
-                        
                     },
-                    
+
                     // Error message
                     'message' => __('Document1 is invalid')
 
-                ]);
-
+                ]
+            );
 
         return $validator;
     }
@@ -151,11 +146,9 @@ class StudentsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-
         // Define that document1 field (CPF) is unique
         $rules->add($rules->isUnique(['document1']));
+
         return $rules;
-
     }
-
 }

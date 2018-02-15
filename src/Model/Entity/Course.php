@@ -65,13 +65,13 @@ class Course extends Entity
     /**
      * getPeriod method
      *
-     * @param string $status Status
+     * @param string $period Status
      * @return mixed
      */
     public function getPeriod($period)
     {
         $periodName = (isset($this->periodsList[$period])) ? __($this->periodsList[$period]) : '';
+
         return $periodName;
     }
-
 }

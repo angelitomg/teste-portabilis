@@ -19,12 +19,11 @@ Características adicionais do sistema
 * Layout responsivo
 * Multiusuário
 * Diferentes bancos de dados suportados: MySQL, PostgreSQL, SQLite
-* Favicon (sim, perfeccionismo ativado! :P)
 
 Notas extras
 ============================
-* Quando uma matrícula é cadastrada, os pagamentos são automaticamente gerados, com um vencimento de 30 dias a partir do vencimento anterior
-* As parcelas são geradas com base nos meses de duração do cursos + a parcela da matrícula
-* Para evitar um arquivo seed muito grande, as matrículas foram importadas, porém as parcelas de cada matrícula não foram geradas automaticamente
-* Nestes casos em que as parcelas não foram geradas, existe um botão "Gerar Parcelas", no dashboard da matrícula, responsável por gerar as parcelas para os próximos meses
-* O autocomplete do nome do aluno no cadastro de matrículas começa a funcionar quando são digitados 3 caracteres ou mais
+* Quando uma matrícula é cadastrada, os pagamentos são automaticamente gerados, com um vencimento de 30 dias a partir do vencimento anterior.
+* As parcelas são geradas com base nos meses de duração do cursos + a parcela da matrícula.
+* Para evitar um arquivo seed muito grande, as matrículas foram importadas, porém as parcelas de cada matrícula não foram geradas automaticamente.
+* Nestes casos em que as parcelas não foram geradas, existe um botão *Gerar Parcelas*, no dashboard da matrícula, responsável por gerar as parcelas para os próximos meses.
+* O autocomplete do nome do aluno no cadastro de matrículas começa a funcionar quando são digitados 3 caracteres ou mais.

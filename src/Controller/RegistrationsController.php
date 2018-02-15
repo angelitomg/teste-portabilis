@@ -50,7 +50,7 @@ class RegistrationsController extends AppController
         }
 
         // Active filter
-        if ((isset($this->request->query['active'])) && 
+        if ((isset($this->request->query['active'])) &&
             ($this->request->query['active'] == 0 || $this->request->query['active'] == 1)) {
             $where['Registrations.active'] = $this->request->query['active'];
         } else {
@@ -58,7 +58,7 @@ class RegistrationsController extends AppController
         }
 
         // Registration tax paid filter
-        if ((isset($this->request->query['registration_tax_paid'])) && 
+        if ((isset($this->request->query['registration_tax_paid'])) &&
             ($this->request->query['registration_tax_paid'] == 0 || $this->request->query['registration_tax_paid'] == 1)) {
             $where['Registrations.registration_tax_paid'] = $this->request->query['registration_tax_paid'];
         }
@@ -100,31 +100,27 @@ class RegistrationsController extends AppController
     {
         $registration = $this->Registrations->newEntity();
         if ($this->request->is('post')) {
-
             $registration = $this->Registrations->patchEntity($registration, $this->request->getData());
 
             // Search for a date conflict
             if ($this->_hasPeriodConflict($registration->course_id, $registration->student_id, $registration->year)) {
                 $this->Flash->error(__('It was not possible complete registration. The student already has a course in the same period.'));
             } else {
-
                 // Set inicial status
                 $registration->active = true;
                 $registration->registration_tax_paid = false;
 
                 // Save registration
                 if ($this->Registrations->save($registration)) {
-
                     // Generate payments
                     $this->_generatePayments($registration->id);
 
                     $this->Flash->success(__('The registration has been saved.'));
+
                     return $this->redirect(['action' => 'view', $registration->id]);
                 }
                 $this->Flash->error(__('The registration could not be saved. Please, try again.'));
-
             }
-
         }
         //$students = $this->Registrations->Students->find('list', ['order' => ['Students.name' => 'ASC']]);
         $courses = $this->Registrations->Courses->find('list', ['order' => ['Courses.name' => 'ASC']]);
@@ -151,17 +147,17 @@ class RegistrationsController extends AppController
             ->first();
 
         // Check invalid registration
-        if (empty($registration)) return $this->redirect('/');
+        if (empty($registration)) {
+            return $this->redirect('/');
+        }
 
         // Get all incompleted payments
         $cancellationFee = 0;
         if (!empty($registration->registration_payments)) {
             foreach ($registration->registration_payments as $payment) {
                 if (empty($payment->payment_date)) {
-
                     // Increase cancellation fee
                     $cancellationFee += ($payment->amount / 100) * 1;
-
                 }
             }
         }
@@ -173,8 +169,8 @@ class RegistrationsController extends AppController
 
         // Set status message and redirect
         $this->Flash->success(__('Registration cancelled successfully. The cancellation fee is ') . Number::currency($cancellationFee) . '.');
+
         return $this->redirect(['action' => 'view', $id]);
-    
     }
 
     /**
@@ -217,6 +213,7 @@ class RegistrationsController extends AppController
         } else {
             $this->Flash->error(__('The payments could not be generated. '));
         }
+
         return $this->redirect(['action' => 'view', $registration->id]);
     }
 
@@ -226,15 +223,14 @@ class RegistrationsController extends AppController
      * @param int $course_id Course id.
      * @param int $student_id Student id.
      * @param int $year Course year.
-     * @return boolean 
+     * @return bool
      */
     private function _hasPeriodConflict($course_id, $student_id, $year)
     {
-
         // Where conditions
         $conditions = [
-            'Registrations.course_id' => $course_id, 
-            'Registrations.student_id' => $student_id, 
+            'Registrations.course_id' => $course_id,
+            'Registrations.student_id' => $student_id,
             'Registrations.year' => $year
         ];
 
@@ -243,7 +239,6 @@ class RegistrationsController extends AppController
 
         // Check if user has a registration in same period
         return (!empty($registrations)) ? true : false;
-
     }
 
     /**
@@ -254,7 +249,6 @@ class RegistrationsController extends AppController
      */
     private function _generatePayments($id)
     {
-
         // Load payments model
         $this->loadModel('RegistrationPayments');
 
@@ -266,8 +260,12 @@ class RegistrationsController extends AppController
             ->first();
 
         // Check invalid registration
-        if (empty($registration)) return false;
-        if (!$registration->has('course')) return false;
+        if (empty($registration)) {
+            return false;
+        }
+        if (!$registration->has('course')) {
+            return false;
+        }
 
         // Generate registration tax
         $registrationTax = $this->RegistrationPayments->newEntity();
@@ -275,11 +273,13 @@ class RegistrationsController extends AppController
         $registrationTax->amount = $registration->course->registration_tax;
         $registrationTax->date = date('Y-m-d');
         $registrationTax->due_date = date('Y-m-d', strtotime('+30 days'));
-        $registrationTax->payment_date = NULL;
+        $registrationTax->payment_date = null;
         $registrationTax->number = 0;
         $registrationTax->is_registration_tax = 1;
         $registrationTax->status = 0;
-        if (!$this->RegistrationPayments->save($registrationTax)) return false;
+        if (!$this->RegistrationPayments->save($registrationTax)) {
+            return false;
+        }
 
         // Generate monthly payments
         $nextDueDate = date('Y-m-d', strtotime('+30 days'));
@@ -289,16 +289,16 @@ class RegistrationsController extends AppController
             $registrationPayment->amount = $registration->course->monthly_amount;
             $registrationPayment->date = date('Y-m-d');
             $registrationPayment->due_date = $nextDueDate;
-            $registrationPayment->payment_date = NULL;
+            $registrationPayment->payment_date = null;
             $registrationPayment->number = $i;
             $registrationPayment->is_registration_tax = 0;
             $registrationPayment->status = 0;
-            if (!$this->RegistrationPayments->save($registrationPayment)) return false;
+            if (!$this->RegistrationPayments->save($registrationPayment)) {
+                return false;
+            }
             $nextDueDate = date('Y-m-d', strtotime($nextDueDate . ' +30 days'));
         }
 
         return true;
-
     }
-
 }

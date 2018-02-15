@@ -79,13 +79,13 @@ class StudentsController extends AppController
         $students = $this->Students
             ->find('all')
             ->select(['id' => 'Students.id', 'label' => 'Students.name'])
-            ->where(['Students.name LIKE' =>  "%{$query}%"])
+            ->where(['Students.name LIKE' => "%{$query}%"])
             ->toArray();
 
         // Show JSON results
         $results = $students;
-        echo json_encode($results); die();
-        
+        echo json_encode($results);
+        die();
     }
 
     /**

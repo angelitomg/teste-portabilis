@@ -44,14 +44,15 @@ class RegistrationPaymentsController extends AppController
             ->first();
 
         // Check if is a valid payment
-        if (empty($payment) || $payment->status == 1) return $this->redirect(['controller' => 'Registrations', 'action' => 'index']);
+        if (empty($payment) || $payment->status == 1) {
+            return $this->redirect(['controller' => 'Registrations', 'action' => 'index']);
+        }
 
         // Payback amount
         $payback = [];
-        
+
         // Pay action
         if ($this->request->is(['post', 'put'])) {
-            
             // Get data
             $paymentDate = $this->request->data['payment_date']['year'] . '-' .
                     $this->request->data['payment_date']['month'] . '-' .
@@ -62,7 +63,6 @@ class RegistrationPaymentsController extends AppController
             if ($payment->amount > $amountPaid) {
                 $this->Flash->error(__('Invalid amount.'));
             } else {
-
                 // Set data and save payment
                 $payment->payment_date = $paymentDate;
                 $payment->status = 1;
@@ -75,7 +75,9 @@ class RegistrationPaymentsController extends AppController
                         ->find('all')
                         ->where(['Registrations.id' => $payment->registration_id])
                         ->first();
-                    if (empty($registration)) return null;
+                    if (empty($registration)) {
+                        return null;
+                    }
                     $registration->registration_tax_paid = 1;
                     $this->Registrations->save($registration);
                 }
@@ -86,10 +88,10 @@ class RegistrationPaymentsController extends AppController
                 $amountPaid = $amountPaid / 100;
                 $amountPaid = round($amountPaid, 2);
                 $payback = $this->_calculatePayback($payment->amount, $amountPaid);
-                if (empty($payback)) return $this->redirect(['controller' => 'Registrations', 'action' => 'view', $payment->registration_id]);
-
+                if (empty($payback)) {
+                    return $this->redirect(['controller' => 'Registrations', 'action' => 'view', $payment->registration_id]);
+                }
             }
-            
         }
 
         $this->set(compact('payment', 'payback'));
@@ -122,7 +124,8 @@ class RegistrationPaymentsController extends AppController
      * @param float $amountPaid Amount paid.
      * @return mixed
      */
-    private function _calculatePayback($amount, $amountPaid) {
+    private function _calculatePayback($amount, $amountPaid)
+    {
         // Notes and totals
         $notes = [100, 50, 10, 5];
         $cents = [100, 50, 10, 5, 1];
@@ -138,7 +141,7 @@ class RegistrationPaymentsController extends AppController
             $totalNotes = floor($value / $note);
             if ($totalNotes > 0) {
                 $value = $value - ($totalNotes * $note);
-                $totals[(string) $note] = $totalNotes;  
+                $totals[(string)$note] = $totalNotes;
             }
         }
 
@@ -150,13 +153,11 @@ class RegistrationPaymentsController extends AppController
             $totalCents = floor($value / $cent);
             if ($totalCents > 0) {
                 $value = $value - ($totalCents * $cent);
-                $totals[(string) ($cent/100)] = $totalCents;    
+                $totals[(string)($cent / 100)] = $totalCents;
             }
         }
 
         // Return totals
         return $totals;
-
     }
-
 }

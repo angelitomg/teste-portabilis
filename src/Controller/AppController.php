@@ -76,5 +76,4 @@ class AppController extends Controller
         parent::beforeFilter($event);
         //$this->Security->requireSecure();
     }
-
 }
